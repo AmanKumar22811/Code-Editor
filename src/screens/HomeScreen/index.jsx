@@ -1,6 +1,14 @@
 import { FaFileCode, FaPlus } from "react-icons/fa";
 import RightComponent from "./RightComponent";
+import Modal from "../../Providers/Modals/Modal";
+import { useContext } from "react";
+import { ModalContext } from "../../Providers/ModalProvider";
 export const HomeScreen = () => {
+  const modalFeatures = useContext(ModalContext);
+  modalFeatures.openModal("CREATE_PLAYGROUND");
+  const openCreatePlaygroundModal = () => {
+    
+  };
   return (
     <div className="h-dvh grid grid-cols-[2fr_3fr]  ">
       {/* left-container */}
@@ -12,7 +20,10 @@ export const HomeScreen = () => {
           <h2 className="font-semibold text-gray-300 font-serif">
             Code . Complie . Debug
           </h2>
-          <button className="font-medium cursor-pointer bg-white rounded-full w-full h-12 p-2 text-black hover:shadow-[2px_2px_6px_gray] transition duration-1000 flex gap-1 justify-center items-center">
+          <button
+            className="font-medium cursor-pointer bg-white rounded-full w-full h-12 p-2 text-black hover:shadow-[2px_2px_6px_gray] transition duration-1000 flex gap-1 justify-center items-center"
+            onClick={openCreatePlaygroundModal}
+          >
             <span>
               <FaPlus />
             </span>
@@ -24,7 +35,8 @@ export const HomeScreen = () => {
 
       {/* right-container */}
 
-     <RightComponent/>
+      <RightComponent />
+      <Modal />
     </div>
   );
 };
