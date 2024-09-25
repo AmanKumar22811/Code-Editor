@@ -5,9 +5,8 @@ import { useContext } from "react";
 import { ModalContext } from "../../Providers/ModalProvider";
 export const HomeScreen = () => {
   const modalFeatures = useContext(ModalContext);
-  modalFeatures.openModal("CREATE_PLAYGROUND");
   const openCreatePlaygroundModal = () => {
-    
+    modalFeatures.openModal("CREATE_PLAYGROUND");
   };
   return (
     <div className="h-dvh grid grid-cols-[2fr_3fr]  ">
