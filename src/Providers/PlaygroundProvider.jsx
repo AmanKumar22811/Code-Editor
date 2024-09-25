@@ -30,15 +30,59 @@ const initailData = [
   },
 ];
 
+const defaultCodes = {
+  cpp: `
+  #include <iostream>
+  using namespace std;
+  
+  int main(){
+    cout<<"Hello World!"<<endl;
+    return 0;
+  }
+    `,
+  javascript: `console.log("hello World!")`,
+  python: `print("Hello World!")`,
+  java: `
+  class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Try programiz.pro");
+    }
+}
+    `,
+};
+
 const PlaygroundProvider = ({ children }) => {
   const [folders, setFolders] = useState(initailData);
+
+  const createNewPlayground = ({ fileName, folderName, language }) => {
+    const newFolders = [...folders];
+    newFolders.push({
+      id: v4,
+      title: folderName,
+      files: [
+        {
+          id: v4(),
+          title: fileName,
+          code: defaultCodes[language],
+          language,
+        },
+      ],
+    });
+    localStorage.setItem("data", JSON.stringify(newFolders));
+    setFolders(newFolders);
+  };
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(folders));
   }, []);
 
+  const playgroundFeatures = {
+    folders,
+    createNewPlayground,
+  };
+
   return (
-    <PlaygroundContext.Provider value={folders}>
+    <PlaygroundContext.Provider value={playgroundFeatures}>
       {children}
     </PlaygroundContext.Provider>
   );

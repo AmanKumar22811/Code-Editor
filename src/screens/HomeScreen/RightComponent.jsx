@@ -62,7 +62,7 @@ const Folder = ({ folderTitle, cards }) => {
   );
 };
 const RightComponent = () => {
-  const folders = useContext(PlaygroundContext);
+  const { folders } = useContext(PlaygroundContext);
 
   return (
     <div className="p-5">

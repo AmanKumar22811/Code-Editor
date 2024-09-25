@@ -9,10 +9,10 @@ export const HomeScreen = () => {
     modalFeatures.openModal("CREATE_PLAYGROUND");
   };
   return (
-    <div className="h-dvh grid grid-cols-[2fr_3fr]  ">
+    <div className="grid grid-cols-[2fr_3fr]  ">
       {/* left-container */}
 
-      <div className="bg-black text-white flex justify-center items-center">
+      <div className="bg-black text-white flex justify-center items-center h-[100vh]">
         <div className="flex flex-col items-center justify-center gap-3">
           <FaFileCode className="text-9xl  text-cyan-400" />
           <h1 className="font-bold">CODE EDITOR</h1>
