@@ -52,7 +52,11 @@ const defaultCodes = {
 };
 
 const PlaygroundProvider = ({ children }) => {
-  const [folders, setFolders] = useState(initailData);
+  const [folders, setFolders] = useState(() => {
+    const localData = localStorage.getItem("data");
+    if (localData) return JSON.parse(localData);
+    return initailData;
+  });
 
   const createNewPlayground = ({ fileName, folderName, language }) => {
     const newFolders = [...folders];
@@ -73,7 +77,9 @@ const PlaygroundProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(folders));
+    if (!localStorage.getItem("data")) {
+      localStorage.setItem("data", JSON.stringify(folders));
+    }
   }, []);
 
   const playgroundFeatures = {

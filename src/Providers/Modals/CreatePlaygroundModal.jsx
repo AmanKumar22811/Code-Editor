@@ -11,7 +11,7 @@ const CreatePlaygroundModal = () => {
   };
   const onSubmitModal = (e) => {
     e.preventDefault();
-    
+
     const folderName = e.target.folderName.value;
     const fileName = e.target.fileName.value;
     const language = e.target.language.value;
@@ -45,6 +45,7 @@ const CreatePlaygroundModal = () => {
           <input
             className="border-none bg-gray-300 p-1 rounded-md"
             name="folderName"
+            required
           />
         </div>
         <div className="flex justify-between items-center font-medium text-lg">
@@ -52,12 +53,14 @@ const CreatePlaygroundModal = () => {
           <input
             className="border-none bg-gray-300 p-1 rounded-md"
             name="fileName"
+            required
           />
         </div>
         <div className="flex justify-between items-center">
           <select
             className="border-none bg-gray-300 p-1 rounded-md"
             name="language"
+            required
           >
             <option value="cpp">cpp</option>
             <option value="java">java</option>
