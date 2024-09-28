@@ -17,6 +17,11 @@ const Folder = ({ folderTitle, cards, folderId }) => {
     openModal(modalConstants.UPDATE_FOLDER_TITLE);
   };
 
+  const openCreateCardModal = () => {
+    setModalPayload(folderId);
+    openModal(modalConstants.CREATE_CARD);
+  };
+
   return (
     <>
       <div className="flex justify-between items-center p-3 border-b-2 border-black">
@@ -33,7 +38,10 @@ const Folder = ({ folderTitle, cards, folderId }) => {
           <span className="text-xl cursor-pointer" onClick={onEditFolderTitle}>
             <CiEdit />
           </span>
-          <button className="flex items-center gap-2">
+          <button
+            className="flex items-center gap-1"
+            onClick={openCreateCardModal}
+          >
             <span>
               <FaPlus />
             </span>
