@@ -90,10 +90,21 @@ const PlaygroundProvider = ({ children }) => {
     localStorage.setItem("data", JSON.stringify(allFolders));
     setFolders(allFolders);
   };
-  
+
   const deleteFolder = (id) => {
     const updatedFoldersList = folders.filter((folderItem) => {
       return folderItem.id !== id;
+    });
+    localStorage.setItem("data", JSON.stringify(updatedFoldersList));
+    setFolders(updatedFoldersList);
+  };
+
+  const editFolderTitle = (newFolderName, id) => {
+    const updatedFoldersList = folders.map((folderItem) => {
+      if (folderItem.id === id) {
+        folderItem.title = newFolderName;
+      }
+      return folderItem;
     });
     localStorage.setItem("data", JSON.stringify(updatedFoldersList));
     setFolders(updatedFoldersList);
@@ -110,6 +121,7 @@ const PlaygroundProvider = ({ children }) => {
     createNewPlayground,
     createNewFolder,
     deleteFolder,
+    editFolderTitle,
   };
 
   return (

@@ -6,8 +6,15 @@ import { modalConstants, ModalContext } from "../../Providers/ModalProvider";
 
 const Folder = ({ folderTitle, cards, id }) => {
   const { deleteFolder } = useContext(PlaygroundContext);
+  const { openModal,setModalPayload } = useContext(ModalContext);
+
   const onDeleteFolder = () => {
     deleteFolder(id);
+  };
+
+  const onEditFolderTitle = () => {
+    setModalPayload(id)
+    openModal(modalConstants.UPDATE_FOLDER_TITLE);
   };
 
   return (
@@ -23,7 +30,7 @@ const Folder = ({ folderTitle, cards, id }) => {
           <span className="cursor-pointer" onClick={onDeleteFolder}>
             <FaRegTrashAlt />
           </span>
-          <span className="text-xl cursor-pointer">
+          <span className="text-xl cursor-pointer" onClick={onEditFolderTitle}>
             <CiEdit />
           </span>
           <button className="flex items-center gap-2">
