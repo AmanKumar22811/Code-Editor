@@ -76,6 +76,19 @@ const PlaygroundProvider = ({ children }) => {
     setFolders(newFolders);
   };
 
+  const createNewFolder = (folderName) => {
+    const newFolder = {
+      id: v4(),
+      title: folderName,
+      files: [],
+    };
+    
+    const allFolders = [...folders, newFolder];
+
+    localStorage.setItem("data", allFolders);
+    setFolders(allFolders);
+  };
+
   useEffect(() => {
     if (!localStorage.getItem("data")) {
       localStorage.setItem("data", JSON.stringify(folders));
@@ -85,6 +98,7 @@ const PlaygroundProvider = ({ children }) => {
   const playgroundFeatures = {
     folders,
     createNewPlayground,
+    createNewFolder,
   };
 
   return (

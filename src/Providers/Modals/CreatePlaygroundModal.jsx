@@ -28,7 +28,7 @@ const CreatePlaygroundModal = () => {
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 bg-[rgba(153,153,153,0.1)] flex justify-center items-center ">
       <form
-        className="w-[40%] h-[45%] bg-white p-8 shadow-[4px_4px_10px_gray] rounded-xl relative flex flex-col   gap-5"
+        className="w-[40%] h-[45%] bg-white p-8 shadow-[4px_4px_10px_gray] rounded-xl relative flex flex-col gap-5"
         onSubmit={onSubmitModal}
       >
         <span

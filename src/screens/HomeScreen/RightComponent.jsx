@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaCode, FaFolder, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { PlaygroundContext } from "../../Providers/PlaygroundProvider";
+import { modalConstants, ModalContext } from "../../Providers/ModalProvider";
 
 const Folder = ({ folderTitle, cards }) => {
   return (
@@ -63,7 +64,10 @@ const Folder = ({ folderTitle, cards }) => {
 };
 const RightComponent = () => {
   const { folders } = useContext(PlaygroundContext);
-
+  const modalFeatures = useContext(ModalContext);
+  const openCreateNewFolder = () => {
+    modalFeatures.openModal(modalConstants.CREATE_FOLDER)
+  };
   return (
     <div className="p-5">
       {/* Header */}
@@ -71,7 +75,10 @@ const RightComponent = () => {
         <div className="text-xl ">
           My <span className="font-extrabold">Playground</span>
         </div>
-        <button className="flex justify-center items-center gap-2">
+        <button
+          className="flex justify-center items-center gap-2"
+          onClick={openCreateNewFolder}
+        >
           <span>
             <FaPlus />
           </span>
