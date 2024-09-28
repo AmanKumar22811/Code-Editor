@@ -4,16 +4,16 @@ import { FaCode, FaFolder, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { PlaygroundContext } from "../../Providers/PlaygroundProvider";
 import { modalConstants, ModalContext } from "../../Providers/ModalProvider";
 
-const Folder = ({ folderTitle, cards, id }) => {
-  const { deleteFolder } = useContext(PlaygroundContext);
-  const { openModal,setModalPayload } = useContext(ModalContext);
+const Folder = ({ folderTitle, cards, folderId }) => {
+  const { deleteFolder, deleteFile } = useContext(PlaygroundContext);
+  const { openModal, setModalPayload } = useContext(ModalContext);
 
   const onDeleteFolder = () => {
-    deleteFolder(id);
+    deleteFolder(folderId);
   };
 
   const onEditFolderTitle = () => {
-    setModalPayload(id)
+    setModalPayload(folderId);
     openModal(modalConstants.UPDATE_FOLDER_TITLE);
   };
 
@@ -46,6 +46,15 @@ const Folder = ({ folderTitle, cards, id }) => {
 
       <div className="flex flex-wrap gap-2 justify-between">
         {cards?.map((file, index) => {
+          const onEditFile = () => {
+            setModalPayload({ fileId: file.id, folderId: folderId });
+            openModal(modalConstants.UPDATE_FILE_TITLE);
+          };
+
+          const onDeleteFile = () => {
+            deleteFile(folderId, file.id);
+          };
+
           return (
             <div
               key={index}
@@ -60,10 +69,11 @@ const Folder = ({ folderTitle, cards, id }) => {
               </div>
 
               <div className="flex justify-center items-center gap-3">
-                <span>
+                <span onClick={onDeleteFile}>
                   <FaRegTrashAlt />
                 </span>
-                <span className="text-xl">
+
+                <span className="text-xl" onClick={onEditFile}>
                   <CiEdit />
                 </span>
               </div>
@@ -97,13 +107,13 @@ const RightComponent = () => {
           <span className="font-bold">New Folder</span>
         </button>
       </div>
-      {folders?.map((folder, index) => {
+      {folders?.map((folder) => {
         return (
           <Folder
             key={folder.id}
             folderTitle={folder?.title}
             cards={folder?.files}
-            id={folder.id}
+            folderId={folder.id}
           />
         );
       })}
