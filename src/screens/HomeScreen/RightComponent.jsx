@@ -4,7 +4,12 @@ import { FaCode, FaFolder, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { PlaygroundContext } from "../../Providers/PlaygroundProvider";
 import { modalConstants, ModalContext } from "../../Providers/ModalProvider";
 
-const Folder = ({ folderTitle, cards }) => {
+const Folder = ({ folderTitle, cards, id }) => {
+  const { deleteFolder } = useContext(PlaygroundContext);
+  const onDeleteFolder = () => {
+    deleteFolder(id);
+  };
+
   return (
     <>
       <div className="flex justify-between items-center p-3 border-b-2 border-black">
@@ -12,13 +17,13 @@ const Folder = ({ folderTitle, cards }) => {
           <span className="text-yellow-400">
             <FaFolder />
           </span>
-          <span>{folderTitle}</span>
+          <span className="text-lg">{folderTitle}</span>
         </div>
         <div className="flex  items-center gap-3">
-          <span>
+          <span className="cursor-pointer" onClick={onDeleteFolder}>
             <FaRegTrashAlt />
           </span>
-          <span className="text-xl">
+          <span className="text-xl cursor-pointer">
             <CiEdit />
           </span>
           <button className="flex items-center gap-2">
@@ -66,10 +71,10 @@ const RightComponent = () => {
   const { folders } = useContext(PlaygroundContext);
   const modalFeatures = useContext(ModalContext);
   const openCreateNewFolder = () => {
-    modalFeatures.openModal(modalConstants.CREATE_FOLDER)
+    modalFeatures.openModal(modalConstants.CREATE_FOLDER);
   };
   return (
-    <div className="p-5">
+    <div className="p-5 h-[100vh] overflow-y-scroll ">
       {/* Header */}
       <div className="flex justify-between items-center border-b-2 border-black p-2">
         <div className="text-xl ">
@@ -88,9 +93,10 @@ const RightComponent = () => {
       {folders?.map((folder, index) => {
         return (
           <Folder
-            key={index}
+            key={folder.id}
             folderTitle={folder?.title}
             cards={folder?.files}
+            id={folder.id}
           />
         );
       })}

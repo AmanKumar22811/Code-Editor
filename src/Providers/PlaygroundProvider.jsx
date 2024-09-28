@@ -3,7 +3,7 @@ import { v4 } from "uuid";
 
 export const PlaygroundContext = createContext();
 
-const initailData = [
+const initialData = [
   {
     id: v4(),
     title: "DSA",
@@ -54,14 +54,16 @@ const defaultCodes = {
 const PlaygroundProvider = ({ children }) => {
   const [folders, setFolders] = useState(() => {
     const localData = localStorage.getItem("data");
-    if (localData) return JSON.parse(localData);
-    return initailData;
+    if (localData) {
+      return JSON.parse(localData);
+    }
+    return initialData;
   });
 
   const createNewPlayground = ({ fileName, folderName, language }) => {
     const newFolders = [...folders];
     newFolders.push({
-      id: v4,
+      id: v4(),
       title: folderName,
       files: [
         {
@@ -82,11 +84,19 @@ const PlaygroundProvider = ({ children }) => {
       title: folderName,
       files: [],
     };
-    
+
     const allFolders = [...folders, newFolder];
 
-    localStorage.setItem("data", allFolders);
+    localStorage.setItem("data", JSON.stringify(allFolders));
     setFolders(allFolders);
+  };
+  
+  const deleteFolder = (id) => {
+    const updatedFoldersList = folders.filter((folderItem) => {
+      return folderItem.id !== id;
+    });
+    localStorage.setItem("data", JSON.stringify(updatedFoldersList));
+    setFolders(updatedFoldersList);
   };
 
   useEffect(() => {
@@ -99,6 +109,7 @@ const PlaygroundProvider = ({ children }) => {
     folders,
     createNewPlayground,
     createNewFolder,
+    deleteFolder,
   };
 
   return (
