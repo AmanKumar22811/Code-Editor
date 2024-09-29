@@ -3,10 +3,12 @@ import { CiEdit } from "react-icons/ci";
 import { FaCode, FaFolder, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { PlaygroundContext } from "../../Providers/PlaygroundProvider";
 import { modalConstants, ModalContext } from "../../Providers/ModalProvider";
+import { useNavigate } from "react-router-dom";
 
 const Folder = ({ folderTitle, cards, folderId }) => {
   const { deleteFolder, deleteFile } = useContext(PlaygroundContext);
   const { openModal, setModalPayload } = useContext(ModalContext);
+  const navigate = useNavigate();
 
   const onDeleteFolder = () => {
     deleteFolder(folderId);
@@ -63,10 +65,15 @@ const Folder = ({ folderTitle, cards, folderId }) => {
             deleteFile(folderId, file.id);
           };
 
+          const navigateToPlaygroundScreen = () => {
+            navigate(`/playground/${file.id}/${folderId}`);
+          };
+
           return (
             <div
               key={index}
               className="flex justify-between w-[45%] p-4 border border-gray-500 rounded-lg m-2 border-x-fuchsia-600  shadow-[2px_2px_5px_gray] cursor-pointer hover:shadow-[2px_2px_10px_gray] hover:transition duration-200"
+              onClick={navigateToPlaygroundScreen}
             >
               <div className="flex justify-center gap-6 items-center">
                 <FaCode className="text-4xl" />
