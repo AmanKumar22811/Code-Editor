@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaPlay } from "react-icons/fa";
 import { MdFullscreen } from "react-icons/md";
@@ -11,6 +11,22 @@ const editorOptions = {
 };
 
 const EditorContainer = () => {
+  const [code, setCode] = useState("");
+  const onUploadCode = (e) => {
+    const file = e.target.files[0];
+    const fileType = file.type.includes("text");
+    if (fileType) {
+      const fileReader = new FileReader();
+      fileReader.readAsText(file);
+      fileReader.onload = function (value) {
+        const importedCode = value.target.result;
+        setCode(importedCode);
+      };
+    } else {
+      alert("Please choose a program file");
+    }
+  };
+  
   return (
     <div className="h-[100%] flex flex-col border-r border-black">
       {/* header */}
@@ -52,7 +68,7 @@ const EditorContainer = () => {
       {/* body */}
 
       <div className="flex-grow border">
-        <Editor language="javascript" options={editorOptions} />
+        <Editor language="javascript" options={editorOptions} value={code} />
       </div>
 
       {/* footer */}
@@ -75,7 +91,12 @@ const EditorContainer = () => {
           <span>Import Code</span>
         </label>
 
-        <input type="file" id="tmport-code" className="hidden" />
+        <input
+          type="file"
+          id="tmport-code"
+          className="hidden"
+          onChange={onUploadCode}
+        />
 
         <button className="flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]">
           <span>
