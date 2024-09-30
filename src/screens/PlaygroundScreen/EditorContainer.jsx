@@ -3,6 +3,12 @@ import { CiEdit } from "react-icons/ci";
 import { FaPlay } from "react-icons/fa";
 import { MdFullscreen } from "react-icons/md";
 import { TfiExport, TfiImport } from "react-icons/tfi";
+import { Editor } from "@monaco-editor/react";
+
+const editorOptions = {
+  fontSize: 15,
+  wordWrap: "on",
+};
 
 const EditorContainer = () => {
   return (
@@ -45,7 +51,9 @@ const EditorContainer = () => {
 
       {/* body */}
 
-      <div className="flex-grow border"></div>
+      <div className="flex-grow border">
+        <Editor language="javascript" options={editorOptions} />
+      </div>
 
       {/* footer */}
 
@@ -76,7 +84,7 @@ const EditorContainer = () => {
           <span>Export Code</span>
         </button>
 
-        <button className="flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]">
+        <button className="flex items-center gap-2 p-2 bg-green-500 text-white border-none rounded-lg hover:bg-green-700 transition duration-[800ms]">
           <span>
             <FaPlay />
           </span>
