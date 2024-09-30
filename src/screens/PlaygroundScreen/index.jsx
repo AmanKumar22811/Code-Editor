@@ -2,6 +2,7 @@ import { BiDownload } from "react-icons/bi";
 import { DiCodeigniter } from "react-icons/di";
 import { RiUpload2Line } from "react-icons/ri";
 import { useParams } from "react-router-dom";
+import EditorContainer from "./EditorContainer";
 
 export const PlaygroundScreen = () => {
   const params = useParams();
@@ -16,12 +17,14 @@ export const PlaygroundScreen = () => {
       <div className="flex-grow grid grid-cols-[3fr_2fr]">
         {/* Editor-Container */}
 
-        <div className="row-span-2">Editor</div>
+        <div className="row-span-2">
+          <EditorContainer />
+        </div>
 
         {/* Input-Container */}
 
         <div className="flex flex-col">
-          <div className="p-5 flex justify-between bg-slate-200">
+          <div className="p-4 flex justify-between bg-slate-200">
             <b>Input:</b>
             <label htmlFor="input" className="flex items-center gap-3">
               <span className="text-xl cursor-pointer">
@@ -37,7 +40,7 @@ export const PlaygroundScreen = () => {
         {/* Output-Container */}
 
         <div className="flex flex-col">
-          <div className="p-5 flex justify-between bg-slate-200">
+          <div className="p-4 flex justify-between bg-slate-200">
             <b>Output:</b>
             <button className="flex items-center gap-3">
               <span className="text-2xl">
