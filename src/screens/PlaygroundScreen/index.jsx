@@ -27,8 +27,8 @@ export const PlaygroundScreen = () => {
           <div className="p-4 flex justify-between bg-slate-200">
             <b>Input:</b>
             <label htmlFor="input" className="flex items-center gap-3">
-              <span className="text-xl cursor-pointer">
-                <RiUpload2Line />
+              <span className="text-2xl cursor-pointer">
+                <BiDownload />
               </span>
               <b>Import Input</b>
             </label>
@@ -44,7 +44,7 @@ export const PlaygroundScreen = () => {
             <b>Output:</b>
             <button className="flex items-center gap-3">
               <span className="text-2xl">
-                <BiDownload />
+                <RiUpload2Line />
               </span>
               <b>Export Output</b>
             </button>

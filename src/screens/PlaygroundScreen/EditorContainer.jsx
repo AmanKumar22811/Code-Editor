@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaPlay } from "react-icons/fa";
 import { MdFullscreen } from "react-icons/md";
@@ -10,9 +10,24 @@ const editorOptions = {
   wordWrap: "on",
 };
 
+const fileExtensionMapping = {
+  cpp: "cpp",
+  javascript: "js",
+  python: "py",
+  java: "java",
+};
+
 const EditorContainer = () => {
   const [code, setCode] = useState("");
-  const onUploadCode = (e) => {
+  const [language, setLanguage] = useState("cpp");
+  const [theme, setTheme] = useState("vs-dark");
+  const codeRef = useRef();
+
+  const onChangeCode = (newCode) => {
+    codeRef.current = newCode;
+  };
+
+  const importCode = (e) => {
     const file = e.target.files[0];
     const fileType = file.type.includes("text");
     if (fileType) {
@@ -21,12 +36,36 @@ const EditorContainer = () => {
       fileReader.onload = function (value) {
         const importedCode = value.target.result;
         setCode(importedCode);
+        codeRef.current=importedCode
       };
     } else {
       alert("Please choose a program file");
     }
   };
-  
+
+  const exportCode = () => {
+    const codeValue = codeRef.current?.trim();
+    if (!codeValue) {
+      alert("Please type some code in the editor before export");
+    }
+
+    const codeBlob = new Blob([codeValue], { type: "text/plain" });
+    const downloadUrl = URL.createObjectURL(codeBlob);
+
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = `code.${fileExtensionMapping[language]}`;
+    link.click();
+  };
+
+  const onChangeLanguage = (e) => {
+    setLanguage(e.target.value);
+  };
+
+  const onChangeTheme = (e) => {
+    setTheme(e.target.value);
+  };
+
   return (
     <div className="h-[100%] flex flex-col border-r border-black">
       {/* header */}
@@ -44,9 +83,9 @@ const EditorContainer = () => {
 
         <div className="flex items-center gap-3">
           <select
-            name=""
-            id=""
             className="border-none bg-[#1A1A1A] p-1 rounded-md outline-none"
+            onChange={onChangeLanguage}
+            value={language}
           >
             <option value="cpp">cpp</option>
             <option value="java">java</option>
@@ -55,12 +94,12 @@ const EditorContainer = () => {
           </select>
 
           <select
-            name=""
-            id=""
+            onChange={onChangeTheme}
+            value={theme}
             className="border-none bg-[#1A1A1A] p-1 rounded-md outline-none"
           >
-            <option value="">dark</option>
-            <option value="">light</option>
+            <option value="vs-dark">vs-dark</option>
+            <option value="vs-light">vs-light</option>
           </select>
         </div>
       </div>
@@ -68,7 +107,13 @@ const EditorContainer = () => {
       {/* body */}
 
       <div className="flex-grow border">
-        <Editor language="javascript" options={editorOptions} value={code} />
+        <Editor
+          language={language}
+          options={editorOptions}
+          value={code}
+          onChange={onChangeCode}
+          theme={theme}
+        />
       </div>
 
       {/* footer */}
@@ -82,7 +127,7 @@ const EditorContainer = () => {
         </button>
 
         <label
-          htmlFor="tmport-code"
+          htmlFor="import-code"
           className="cursor-pointer flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]"
         >
           <span>
@@ -93,12 +138,15 @@ const EditorContainer = () => {
 
         <input
           type="file"
-          id="tmport-code"
+          id="import-code"
           className="hidden"
-          onChange={onUploadCode}
+          onChange={importCode}
         />
 
-        <button className="flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]">
+        <button
+          className="flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]"
+          onClick={exportCode}
+        >
           <span>
             <TfiExport />
           </span>
