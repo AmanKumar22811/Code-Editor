@@ -36,7 +36,7 @@ const EditorContainer = () => {
       fileReader.onload = function (value) {
         const importedCode = value.target.result;
         setCode(importedCode);
-        codeRef.current=importedCode
+        codeRef.current = importedCode;
       };
     } else {
       alert("Please choose a program file");
