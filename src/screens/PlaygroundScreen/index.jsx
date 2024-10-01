@@ -52,7 +52,7 @@ export const PlaygroundScreen = () => {
         {/* Editor-Container */}
 
         <div className="row-span-2">
-          <EditorContainer />
+          <EditorContainer fileId={fileId} folderId={folderId}/>
         </div>
 
         {/* Input-Container */}

@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaPlay } from "react-icons/fa";
 import { MdFullscreen } from "react-icons/md";
 import { TfiExport, TfiImport } from "react-icons/tfi";
 import { Editor } from "@monaco-editor/react";
+import { PlaygroundContext } from "../../Providers/PlaygroundProvider";
 
 const editorOptions = {
   fontSize: 15,
@@ -17,11 +18,19 @@ const fileExtensionMapping = {
   java: "java",
 };
 
-const EditorContainer = () => {
-  const [code, setCode] = useState("");
-  const [language, setLanguage] = useState("cpp");
+const EditorContainer = ({ fileId, folderId }) => {
+  const { getDefaultCode, getDefaultLanguage } = useContext(PlaygroundContext);
+
+  const [code, setCode] = useState(() => {
+    return getDefaultCode(fileId, folderId);
+  });
+
+  const [language, setLanguage] = useState(() => {
+    return getDefaultLanguage(fileId, folderId);
+  });
+
   const [theme, setTheme] = useState("vs-dark");
-  const codeRef = useRef();
+  const codeRef = useRef(code);
 
   const onChangeCode = (newCode) => {
     codeRef.current = newCode;

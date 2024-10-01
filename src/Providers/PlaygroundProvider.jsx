@@ -157,6 +157,32 @@ const PlaygroundProvider = ({ children }) => {
     setFolders(folders);
   };
 
+  const getDefaultCode = (fileId, folderId) => {
+    for (let i = 0; i < folders.length; i++) {
+      if (folders[i].id === folderId) {
+        for (let j = 0; j < folders[i].files.length; j++) {
+          const currentFile = folders[i].files[j];
+          if (fileId === currentFile.id) {
+            return currentFile.code;
+          }
+        }
+      }
+    }
+  };
+
+  const getDefaultLanguage = (fileId, folderId) => {
+    for (let i = 0; i < folders.length; i++) {
+      if (folders[i].id === folderId) {
+        for (let j = 0; j < folders[i].files.length; j++) {
+          const currentFile = folders[i].files[j];
+          if (fileId === currentFile.id) {
+            return currentFile.language;
+          }
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     if (!localStorage.getItem("data")) {
       localStorage.setItem("data", JSON.stringify(folders));
@@ -171,7 +197,9 @@ const PlaygroundProvider = ({ children }) => {
     editFolderTitle,
     editFileTitle,
     deleteFile,
-    createPlayground
+    createPlayground,
+    getDefaultCode,
+    getDefaultLanguage
   };
 
   return (
