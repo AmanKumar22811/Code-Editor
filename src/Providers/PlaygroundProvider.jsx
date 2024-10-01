@@ -45,7 +45,7 @@ export const defaultCodes = {
   java: `
   class HelloWorld {
     public static void main(String[] args) {
-        System.out.println("Try programiz.pro");
+        System.out.println("Hello World");
     }
 }
     `,
@@ -170,7 +170,24 @@ const PlaygroundProvider = ({ children }) => {
     }
   };
 
-  const getDefaultLanguage = (fileId, folderId) => {
+  const updateLanguage = (fileId, folderId, language) => {
+    const newFolders = [...folders];
+    for (let i = 0; i < newFolders.length; i++) {
+      if (newFolders[i].id === folderId) {
+        for (let j = 0; j < newFolders[i].files.length; j++) {
+          const currentFile = newFolders[i].files[j];
+          if (fileId === currentFile.id) {
+            newFolders[i].files[j].code = defaultCodes[language];
+            newFolders[i].files[j].language = language;
+          }
+        }
+      }
+    }
+    localStorage.setItem("data", JSON.stringify(newFolders));
+    setFolders(newFolders);
+  };
+
+  const getLanguage = (fileId, folderId) => {
     for (let i = 0; i < folders.length; i++) {
       if (folders[i].id === folderId) {
         for (let j = 0; j < folders[i].files.length; j++) {
@@ -181,6 +198,22 @@ const PlaygroundProvider = ({ children }) => {
         }
       }
     }
+  };
+
+  const saveCode = (fileId, folderId, newCode) => {
+    const newFolders = [...folders];
+    for (let i = 0; i < newFolders.length; i++) {
+      if (newFolders[i].id === folderId) {
+        for (let j = 0; j < newFolders[i].files.length; j++) {
+          const currentFile = newFolders[i].files[j];
+          if (fileId === currentFile.id) {
+            newFolders[i].files[j].code = newCode;
+          }
+        }
+      }
+    }
+    localStorage.setItem("data", JSON.stringify(newFolders));
+    setFolders(newFolders);
   };
 
   useEffect(() => {
@@ -199,7 +232,9 @@ const PlaygroundProvider = ({ children }) => {
     deleteFile,
     createPlayground,
     getDefaultCode,
-    getDefaultLanguage
+    getLanguage,
+    updateLanguage,
+    saveCode,
   };
 
   return (

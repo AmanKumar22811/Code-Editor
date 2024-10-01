@@ -19,18 +19,22 @@ const fileExtensionMapping = {
 };
 
 const EditorContainer = ({ fileId, folderId }) => {
-  const { getDefaultCode, getDefaultLanguage } = useContext(PlaygroundContext);
+  const { getDefaultCode, getLanguage, updateLanguage, saveCode } =
+    useContext(PlaygroundContext);
 
   const [code, setCode] = useState(() => {
     return getDefaultCode(fileId, folderId);
   });
 
   const [language, setLanguage] = useState(() => {
-    return getDefaultLanguage(fileId, folderId);
+    return getLanguage(fileId, folderId);
   });
 
   const [theme, setTheme] = useState("vs-dark");
+
   const codeRef = useRef(code);
+
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   const onChangeCode = (newCode) => {
     codeRef.current = newCode;
@@ -68,6 +72,8 @@ const EditorContainer = ({ fileId, folderId }) => {
   };
 
   const onChangeLanguage = (e) => {
+    updateLanguage(fileId, folderId, e.target.value);
+    setCode(getDefaultCode(fileId, folderId));
     setLanguage(e.target.value);
   };
 
@@ -75,8 +81,21 @@ const EditorContainer = ({ fileId, folderId }) => {
     setTheme(e.target.value);
   };
 
+  const onSaveCode = () => {
+    saveCode(fileId, folderId, codeRef.current);
+    alert("Your Code Saved Successfully");
+  };
+
+  const fullScreen = () => {
+    setIsFullScreen(!isFullScreen);
+  };
+
   return (
-    <div className="h-[100%] flex flex-col border-r border-black">
+    <div
+      className={`h-[100%] flex flex-col border-r border-black ${
+        isFullScreen ? "absolute top-0 left-0 right-0 bottom-0 z-10" : "rela"
+      }`}
+    >
       {/* header */}
 
       <div className="flex justify-between p-3 bg-[#313131] text-white">
@@ -85,7 +104,10 @@ const EditorContainer = ({ fileId, folderId }) => {
           <span>
             <CiEdit />
           </span>
-          <button className="border-none bg-blue-600 rounded-md p-1 hover:bg-blue-800 transition duration-500">
+          <button
+            onClick={onSaveCode}
+            className="border-none bg-blue-600 rounded-md p-1 hover:bg-blue-800 transition duration-500"
+          >
             Save Code
           </button>
         </div>
@@ -128,11 +150,14 @@ const EditorContainer = ({ fileId, folderId }) => {
       {/* footer */}
 
       <div className="bg-[#1A1A1A] text-white flex justify-between items-center p-2">
-        <button className="flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]">
+        <button
+          className="flex items-center gap-2 p-2 bg-[#3E3E3E] text-[#C3C4C8] border-none rounded-lg hover:bg-[#8d8e94] hover:text-white transition duration-[800ms]"
+          onClick={fullScreen}
+        >
           <span className="text-xl">
             <MdFullscreen />
           </span>
-          <span>Full Screen</span>
+          <span>{isFullScreen ? "Minimize" : "Full Screen"}</span>
         </button>
 
         <label
