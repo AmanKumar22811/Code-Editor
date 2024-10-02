@@ -18,7 +18,7 @@ const fileExtensionMapping = {
   java: "java",
 };
 
-const EditorContainer = ({ fileId, folderId }) => {
+const EditorContainer = ({ fileId, folderId, runCode }) => {
   const { getDefaultCode, getLanguage, updateLanguage, saveCode } =
     useContext(PlaygroundContext);
 
@@ -88,6 +88,10 @@ const EditorContainer = ({ fileId, folderId }) => {
 
   const fullScreen = () => {
     setIsFullScreen(!isFullScreen);
+  };
+
+  const onRunCode = () => {
+    runCode({ code: codeRef.current, language });
   };
 
   return (
@@ -187,7 +191,10 @@ const EditorContainer = ({ fileId, folderId }) => {
           <span>Export Code</span>
         </button>
 
-        <button className="flex items-center gap-2 p-2 bg-green-500 text-white border-none rounded-lg hover:bg-green-700 transition duration-[800ms]">
+        <button
+          className="flex items-center gap-2 p-2 bg-green-500 text-white border-none rounded-lg hover:bg-green-700 transition duration-[800ms]"
+          onClick={onRunCode}
+        >
           <span>
             <FaPlay />
           </span>

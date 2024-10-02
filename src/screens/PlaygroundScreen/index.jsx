@@ -3,12 +3,14 @@ import { DiCodeigniter } from "react-icons/di";
 import { RiUpload2Line } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import EditorContainer from "./EditorContainer";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { makeSubmission } from "./service";
 
 export const PlaygroundScreen = () => {
   const params = useParams();
-  const [input, setInput] = useState();
-  const [output, setOutput] = useState();
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
 
   const { fileId, folderId } = params;
 
@@ -41,6 +43,30 @@ export const PlaygroundScreen = () => {
     link.click();
   };
 
+  const callback = ({ apiStatus, data, message }) => {
+    if (apiStatus === "loading") {
+      setShowLoader(true);
+    } else if (apiStatus === "error") {
+      setShowLoader(false);
+      setOutput("Something went wrong");
+
+    } else {
+      setShowLoader(false);
+      if (data.status.id === 3) {
+        setOutput(atob(data.stdout));
+      } else {
+        setOutput(atob(data.stderr));
+      }
+    }
+  };
+
+  const runCode = useCallback(
+    ({ code, language }) => {
+      makeSubmission({ code, language, input, callback });
+    },
+    [input]
+  );
+
   return (
     <div className="h-[100vh] flex flex-col">
       <div className="self-stretch flex justify-center items-center gap-3 text-3xl bg-black text-white p-2">
@@ -52,7 +78,11 @@ export const PlaygroundScreen = () => {
         {/* Editor-Container */}
 
         <div className="row-span-2">
-          <EditorContainer fileId={fileId} folderId={folderId}/>
+          <EditorContainer
+            fileId={fileId}
+            folderId={folderId}
+            runCode={runCode}
+          />
         </div>
 
         {/* Input-Container */}
@@ -96,10 +126,16 @@ export const PlaygroundScreen = () => {
             readOnly
             className="flex-grow border-none outline-none resize-none"
             value={output}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setOutput(e.target.value)}
           ></textarea>
         </div>
       </div>
+
+      {showLoader && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.534)] flex justify-center items-center">
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-loader"></div>
+        </div>
+      )}
     </div>
   );
 };
