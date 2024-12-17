@@ -6,25 +6,13 @@ export const PlaygroundContext = createContext();
 const initialData = [
   {
     id: v4(),
-    title: "DSA",
+    title: "Your Folder Name",
     files: [
       {
         id: v4(),
-        title: "index",
-        code: 'cout<<"helloe World";',
+        title: "File Name",
+        code: 'cout<<"hello World";',
         language: "cpp",
-      },
-    ],
-  },
-  {
-    id: v4(),
-    title: "frontend",
-    files: [
-      {
-        id: v4(),
-        title: "test",
-        code: 'console.log("hello");',
-        language: "javascript",
       },
     ],
   },
