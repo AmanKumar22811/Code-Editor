@@ -56,12 +56,14 @@ const Folder = ({ folderTitle, cards, folderId }) => {
 
       <div className="flex flex-wrap gap-2 justify-between">
         {cards?.map((file, index) => {
-          const onEditFile = () => {
+          const onEditFile = (event) => {
+            event.stopPropagation(); // Prevent triggering the card's onClick event
             setModalPayload({ fileId: file.id, folderId: folderId });
             openModal(modalConstants.UPDATE_FILE_TITLE);
           };
 
-          const onDeleteFile = () => {
+          const onDeleteFile = (event) => {
+            event.stopPropagation();
             deleteFile(folderId, file.id);
           };
 

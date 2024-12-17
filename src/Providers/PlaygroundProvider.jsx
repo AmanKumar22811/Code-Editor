@@ -31,24 +31,20 @@ const initialData = [
 ];
 
 export const defaultCodes = {
-  cpp: `
-  #include <iostream>
-  using namespace std;
+  cpp: `#include <iostream>
+using namespace std;
   
   int main(){
     cout<<"Hello World!"<<endl;
     return 0;
-  }
-    `,
+}`,
   javascript: `console.log("hello World!")`,
   python: `print("Hello World!")`,
-  java: `
-  class HelloWorld {
+  java: `class Main {
     public static void main(String[] args) {
         System.out.println("Hello World");
     }
-}
-    `,
+}`,
 };
 
 const PlaygroundProvider = ({ children }) => {
