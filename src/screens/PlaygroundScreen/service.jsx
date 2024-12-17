@@ -11,7 +11,7 @@ const getSubmission = async (tokenId, callback) => {
     method: "GET",
     headers: {
       "content-type": "application/octet-stream",
-      "x-RapidAPI-Key": "14454e300cmsh09adae056adbe94p18b81ejsn3c2469f30fef",
+      "x-RapidAPI-Key": import.meta.env.VITE_X_RAPID_API_KEY,
       "x-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
     },
   };
@@ -32,7 +32,7 @@ export const makeSubmission = async ({ code, language, callback, stdin }) => {
   const httpOptions = {
     method: "POST",
     headers: {
-      "x-rapidAPI-Key": "14454e300cmsh09adae056adbe94p18b81ejsn3c2469f30fef",
+      "x-rapidAPI-Key": import.meta.env.VITE_X_RAPID_API_KEY,
       "x-rapidAPI-Host": "judge0-ce.p.rapidapi.com",
       "Content-Type": "application/json",
     },
@@ -62,7 +62,6 @@ export const makeSubmission = async ({ code, language, callback, stdin }) => {
         } else {
           statusCode = -1; // Exit the loop if no status is returned
         }
-
       } catch (error) {
         callback({ apiStatus: "error", message: JSON.stringify(error) });
         console.log(error);
@@ -81,4 +80,3 @@ export const makeSubmission = async ({ code, language, callback, stdin }) => {
     console.log(error);
   }
 };
-
